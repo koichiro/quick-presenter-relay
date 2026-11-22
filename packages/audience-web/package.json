@@ -1,0 +1,34 @@
+{
+  "name": "quick-presenter-audience-web",
+  "version": "1.0.0",
+  "private": false,
+  "license": "Apache-2.0",
+  "type": "module",
+  "files": [
+    "assets",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ],
+  "exports": {
+    ".": "./assets/audience.js",
+    "./index.html": "./assets/index.html",
+    "./audience.js": "./assets/audience.js",
+    "./LICENSE": "./LICENSE",
+    "./NOTICE": "./NOTICE"
+  },
+  "description": "Shared browser audience UI for Quick Presenter Relay.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koichiro/quick-presenter-relay.git",
+    "directory": "packages/audience-web"
+  },
+  "homepage": "https://github.com/koichiro/quick-presenter-relay#readme",
+  "bugs": {
+    "url": "https://github.com/koichiro/quick-presenter-relay/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

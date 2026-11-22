@@ -1,0 +1,14 @@
+node_modules/
+coverage/
+dist/
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite-*
+*.log
+.DS_Store
+local-state/
+packages/room-core/protocol/
+*.tgz
+release/

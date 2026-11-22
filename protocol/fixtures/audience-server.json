@@ -1,0 +1,313 @@
+[
+  {
+    "name": "complete extensible welcome",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["same", "future"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "missing protocol",
+    "value": {
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["same", "future"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "missing version",
+    "value": {
+      "protocol": "qp.audience",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["same", "future"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "missing type",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "connection_id": "same",
+      "capabilities": ["same", "future"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "missing connection_id",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "capabilities": ["same", "future"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "missing capabilities",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "missing available",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["same", "future"],
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "missing limits",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["same", "future"],
+      "available": true
+    },
+    "valid": false
+  },
+  {
+    "name": "nested unexpected limit",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["same", "future"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1,
+        "extra": true
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "capability unpaired high surrogate",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["\ud800"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "capability unpaired low surrogate",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["\udfff"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "capability embedded unpaired high surrogate",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["future_\ud800_feature"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "capability embedded unpaired low surrogate",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["future_\udfff_feature"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "capability reversed surrogate pair",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["\udfff\ud800"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "capability two high surrogates",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["\ud800\ud801"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "capability valid surrogate pair",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["\ud83d\ude00"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "capability before surrogate range",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["\ud7ff"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "capability after surrogate range",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["\ue000"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "capability highest Unicode scalar",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["\udbff\udfff"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "retired draft welcome",
+    "value": {
+      "protocol": "qp.audience",
+      "version": "1-draft.1",
+      "type": "welcome",
+      "connection_id": "same",
+      "capabilities": ["same", "future"],
+      "available": true,
+      "limits": {
+        "max_message_bytes": 4096,
+        "request_cache_ms": 1
+      }
+    },
+    "valid": false
+  }
+]

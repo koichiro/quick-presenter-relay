@@ -1,0 +1,29 @@
+{
+  "all": true,
+  "check-coverage": true,
+  "per-file": true,
+  "statements": 80,
+  "branches": 80,
+  "functions": 80,
+  "lines": 80,
+  "include": [
+    "scripts/**/*.{js,mjs,cjs,ts,mts,cts}",
+    "src/**/*.{js,mjs,cjs,ts,mts,cts}",
+    "packages/**/*.{js,mjs,cjs,ts,mts,cts}",
+    "dist/src/**/*.{js,mjs}",
+    "dist/scripts/**/*.mjs"
+  ],
+  "exclude": [
+    "**/*.d.ts",
+    "**/*.d.mts",
+    "**/*.d.cts",
+    "**/*.test.*",
+    "**/*.spec.*",
+    "**/node_modules/**",
+    "**/coverage/**"
+  ],
+  "extension": [".js", ".mjs", ".cjs", ".ts", ".mts", ".cts"],
+  "reporter": ["text", "lcov", "json-summary"],
+  "reports-dir": "coverage",
+  "exclude-after-remap": true
+}

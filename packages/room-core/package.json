@@ -1,0 +1,40 @@
+{
+  "name": "quick-presenter-relay-core",
+  "version": "1.0.0",
+  "private": false,
+  "license": "Apache-2.0",
+  "type": "module",
+  "files": [
+    "dist",
+    "protocol",
+    "LICENSE",
+    "README.md",
+    "NOTICE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./protocol/*": "./protocol/*"
+  },
+  "scripts": {
+    "build": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const path of ['dist', 'protocol']) rmSync(path, { recursive: true, force: true });\" && tsc -p tsconfig.json && node --input-type=module -e \"import { cpSync } from 'node:fs'; cpSync('../../protocol', 'protocol', { recursive: true });\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prepack": "npm run build"
+  },
+  "description": "Portable room core and protocol contracts for Quick Presenter Relay.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koichiro/quick-presenter-relay.git",
+    "directory": "packages/room-core"
+  },
+  "homepage": "https://github.com/koichiro/quick-presenter-relay#readme",
+  "bugs": {
+    "url": "https://github.com/koichiro/quick-presenter-relay/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

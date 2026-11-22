@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:qp-relay:1:create-response",
+  "type": "object",
+  "properties": {
+    "room_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,64}$"
+    },
+    "code": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,64}$"
+    },
+    "join_url": {
+      "type": "string",
+      "pattern": "^https?://[^\\s]+/join/[A-Za-z0-9_-]+#k=[A-Za-z0-9_-]{43}$"
+    },
+    "presenter_url": {
+      "type": "string",
+      "pattern": "^wss?://[^\\s]+$"
+    },
+    "presenter_token": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    }
+  },
+  "required": ["room_id", "code", "join_url", "presenter_url", "presenter_token"],
+  "additionalProperties": false
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:qp-relay:draft:1:policy-decision",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "api_version": {
+          "const": "1-draft.1"
+        },
+        "outcome": {
+          "const": "allow"
+        }
+      },
+      "required": ["api_version", "outcome"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "api_version": {
+          "const": "1-draft.1"
+        },
+        "outcome": {
+          "const": "deny"
+        },
+        "reason": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,64}$"
+        }
+      },
+      "required": ["api_version", "outcome", "reason"],
+      "additionalProperties": false
+    }
+  ]
+}

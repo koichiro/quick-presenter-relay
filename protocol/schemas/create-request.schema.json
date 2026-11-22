@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:qp-relay:1:create-request",
+  "type": "object",
+  "properties": {
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,64}$"
+    }
+  },
+  "required": ["idempotency_key"],
+  "additionalProperties": false
+}

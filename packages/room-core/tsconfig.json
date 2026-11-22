@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "allowJs": true,
+    "checkJs": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "sourceMap": true,
+    "declaration": true,
+    "noEmitOnError": true,
+    "types": [],
+    "lib": ["ES2022", "DOM"],
+    "inlineSources": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.mjs"]
+}

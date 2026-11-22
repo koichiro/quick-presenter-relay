@@ -1,0 +1,127 @@
+name: npm release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag, such as v1.0.0
+        required: true
+        type: string
+      publish:
+        description: Publish verified tarballs using configured npm trusted publishers
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-release-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      RELEASE_TAG: ${{ inputs.tag }}
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+      - name: Verify release identity and package versions
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { readFileSync } from 'node:fs';
+          const tag = process.env.RELEASE_TAG;
+          assert.match(tag, /^v[0-9]+\.[0-9]+\.[0-9]+$/);
+          for (const path of ['package.json', 'packages/room-core/package.json', 'packages/audience-web/package.json']) {
+            const pkg = JSON.parse(readFileSync(path, 'utf8'));
+            assert.equal(pkg.version, tag.slice(1));
+            assert.equal(pkg.private, false);
+            assert.equal(pkg.repository.url, 'git+https://github.com/koichiro/quick-presenter-relay.git');
+          }
+          JS
+          test "$(git rev-parse HEAD)" = "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
+          git merge-base --is-ancestor HEAD origin/main
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Verify functional tests and per-file coverage
+        run: npm run ci
+      - name: Build release tarballs
+        run: |
+          mkdir -p release
+          npm pack --workspace quick-presenter-relay-core --pack-destination release
+          npm pack --workspace quick-presenter-audience-web --pack-destination release
+          npm pack --workspaces=false --pack-destination release
+          cd release
+          sha256sum *.tgz > SHA256SUMS
+      - name: Preserve verified tarballs
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: npm-packages
+          path: release/
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    if: ${{ inputs.publish }}
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      RELEASE_TAG: ${{ inputs.tag }}
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.tag }}
+          persist-credentials: false
+      - name: Set up Node.js for OIDC publishing
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+          registry-url: https://registry.npmjs.org
+      - name: Download verified tarballs
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: npm-packages
+          path: release/
+      - name: Verify downloaded checksums
+        working-directory: release
+        run: sha256sum --check SHA256SUMS
+      - name: Publish in dependency order, refusing conflicting existing versions
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { createHash } from 'node:crypto';
+          import { execFileSync, spawnSync } from 'node:child_process';
+          import { readFileSync } from 'node:fs';
+          const version = process.env.RELEASE_TAG.slice(1);
+          assert.match(version, /^[0-9]+\.[0-9]+\.[0-9]+$/);
+          for (const name of ['quick-presenter-relay-core', 'quick-presenter-audience-web', 'quick-presenter-relay']) {
+            const archive = `release/${name}-${version}.tgz`;
+            const integrity = 'sha512-' + createHash('sha512').update(readFileSync(archive)).digest('base64');
+            const result = spawnSync('npm', ['view', `${name}@${version}`, 'dist.integrity', '--json'], { encoding: 'utf8' });
+            if (result.status === 0) {
+              assert.equal(JSON.parse(result.stdout), integrity, `Existing ${name}@${version} has different bytes`);
+              console.log(`Verified existing ${name}@${version}; skipping publication`);
+              continue;
+            }
+            assert.equal(JSON.parse(result.stdout).error?.code, 'E404', 'Registry lookup failed');
+            execFileSync('npm', ['publish', archive, '--ignore-scripts', '--access=public', '--provenance'], { stdio: 'inherit' });
+          }
+          JS

@@ -1,0 +1,2 @@
+# Keep source and fixtures identical across platform checkouts.
+* text=auto eol=lf

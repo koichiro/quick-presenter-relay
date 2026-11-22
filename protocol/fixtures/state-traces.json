@@ -1,0 +1,400 @@
+[
+  {
+    "name": "accepted requires qp receipt",
+    "steps": [
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "join",
+        "id": "a",
+        "expect": "joined"
+      },
+      {
+        "op": "offer",
+        "id": "e",
+        "member": "a",
+        "expect": "pending"
+      },
+      {
+        "op": "receipt",
+        "id": "e",
+        "epoch": "1",
+        "expect": "accepted"
+      }
+    ]
+  },
+  {
+    "name": "end fences pending receipt",
+    "steps": [
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "join",
+        "id": "a",
+        "expect": "joined"
+      },
+      {
+        "op": "offer",
+        "id": "e",
+        "member": "a",
+        "expect": "pending"
+      },
+      {
+        "op": "end",
+        "expect": "ended"
+      },
+      {
+        "op": "receipt",
+        "id": "e",
+        "epoch": "1",
+        "expect": "stopped"
+      },
+      {
+        "op": "attach",
+        "expect": "stopped"
+      }
+    ]
+  },
+  {
+    "name": "resume fences old presenter and disconnect",
+    "steps": [
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "join",
+        "id": "a",
+        "expect": "joined"
+      },
+      {
+        "op": "offer",
+        "id": "e",
+        "member": "a",
+        "expect": "pending"
+      },
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "receipt",
+        "id": "e",
+        "epoch": "1",
+        "expect": "stale"
+      },
+      {
+        "op": "disconnect_presenter",
+        "epoch": "1",
+        "expect": "stale"
+      },
+      {
+        "op": "offer",
+        "id": "e2",
+        "member": "a",
+        "expect": "pending"
+      }
+    ]
+  },
+  {
+    "name": "disconnect produces unknown and no replay",
+    "steps": [
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "join",
+        "id": "a",
+        "expect": "joined"
+      },
+      {
+        "op": "offer",
+        "id": "e",
+        "member": "a",
+        "expect": "pending"
+      },
+      {
+        "op": "disconnect_presenter",
+        "epoch": "1",
+        "expect": "disconnected"
+      },
+      {
+        "op": "offer",
+        "id": "x",
+        "member": "a",
+        "expect": "unavailable"
+      },
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "receipt",
+        "id": "e",
+        "epoch": "2",
+        "expect": "unknown"
+      }
+    ]
+  },
+  {
+    "name": "pause preserves history not old overlay",
+    "steps": [
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "join",
+        "id": "a",
+        "expect": "joined"
+      },
+      {
+        "op": "offer",
+        "id": "old",
+        "member": "a",
+        "expect": "pending"
+      },
+      {
+        "op": "display",
+        "epoch": "1",
+        "display": "1",
+        "paused": true,
+        "expect": "updated"
+      },
+      {
+        "op": "offer",
+        "id": "paused",
+        "member": "a",
+        "expect": "pending"
+      },
+      {
+        "op": "overlay",
+        "id": "paused",
+        "expect": "hidden"
+      },
+      {
+        "op": "display",
+        "epoch": "1",
+        "display": "2",
+        "paused": false,
+        "expect": "updated"
+      },
+      {
+        "op": "overlay",
+        "id": "old",
+        "expect": "hidden"
+      },
+      {
+        "op": "overlay",
+        "id": "paused",
+        "expect": "hidden"
+      },
+      {
+        "op": "receipt",
+        "id": "old",
+        "epoch": "1",
+        "expect": "accepted"
+      },
+      {
+        "op": "offer",
+        "id": "new",
+        "member": "a",
+        "expect": "pending"
+      },
+      {
+        "op": "overlay",
+        "id": "new",
+        "expect": "visible"
+      }
+    ]
+  },
+  {
+    "name": "connection removal is idempotent",
+    "steps": [
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "join",
+        "id": "a",
+        "expect": "joined"
+      },
+      {
+        "op": "join",
+        "id": "b",
+        "expect": "joined"
+      },
+      {
+        "op": "leave",
+        "id": "a",
+        "expect": "left"
+      },
+      {
+        "op": "leave",
+        "id": "a",
+        "expect": "absent"
+      },
+      {
+        "op": "join",
+        "id": "b",
+        "expect": "joined"
+      }
+    ]
+  },
+  {
+    "name": "expiry equality is terminal",
+    "expires_at": 100,
+    "steps": [
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "tick",
+        "now": 99,
+        "expect": "active"
+      },
+      {
+        "op": "tick",
+        "now": 100,
+        "expect": "expired"
+      },
+      {
+        "op": "join",
+        "id": "a",
+        "expect": "expired"
+      },
+      {
+        "op": "attach",
+        "expect": "expired"
+      }
+    ]
+  },
+  {
+    "name": "absent plugin allows and installed failures reject",
+    "steps": [
+      {
+        "op": "policy",
+        "mode": "absent",
+        "expect": "allow"
+      },
+      {
+        "op": "policy",
+        "mode": "deny",
+        "expect": "denied"
+      },
+      {
+        "op": "policy",
+        "mode": "throw",
+        "expect": "policy_unavailable"
+      },
+      {
+        "op": "policy",
+        "mode": "timeout",
+        "expect": "policy_unavailable"
+      }
+    ]
+  },
+  {
+    "name": "extension completion rechecks room",
+    "steps": [
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "policy_start",
+        "id": "p",
+        "expect": "pending"
+      },
+      {
+        "op": "end",
+        "expect": "ended"
+      },
+      {
+        "op": "policy_complete",
+        "id": "p",
+        "expect": "stopped"
+      }
+    ]
+  },
+  {
+    "name": "older policy configuration cannot replace current revision",
+    "steps": [
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "policy_revision",
+        "revision": "2",
+        "expect": "updated"
+      },
+      {
+        "op": "policy_revision",
+        "revision": "1",
+        "expect": "stale"
+      }
+    ]
+  },
+  {
+    "name": "receipt timeout not rejection",
+    "steps": [
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "join",
+        "id": "a",
+        "expect": "joined"
+      },
+      {
+        "op": "offer",
+        "id": "e",
+        "member": "a",
+        "expect": "pending"
+      },
+      {
+        "op": "timeout",
+        "id": "e",
+        "expect": "unknown"
+      },
+      {
+        "op": "receipt",
+        "id": "e",
+        "epoch": "1",
+        "expect": "unknown"
+      }
+    ]
+  },
+  {
+    "name": "older display update does not unpause",
+    "steps": [
+      {
+        "op": "attach",
+        "expect": "active"
+      },
+      {
+        "op": "display",
+        "epoch": "1",
+        "display": "2",
+        "paused": true,
+        "expect": "updated"
+      },
+      {
+        "op": "display",
+        "epoch": "1",
+        "display": "1",
+        "paused": false,
+        "expect": "stale"
+      }
+    ]
+  }
+]
