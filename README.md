@@ -1,6 +1,6 @@
 # Quick Presenter Relay
 
-Version `1.0.0` implements Relay Protocol v1. It includes a single-process Node
+Version `1.0.1` implements Relay Protocol v1. It includes a single-process Node
 self-hosted runtime, a portable room core and a shared mobile audience browser.
 Package versions, wire version and the extension API version are independent.
 The extension SDK retains its explicitly versioned `1-draft.1` contract.
@@ -34,7 +34,7 @@ Create an owner-only server configuration as described in
 [the self-hosted guide](docs/SELF_HOSTED.md), then install and run the CLI:
 
 ```sh
-npm install --global quick-presenter-relay@1.0.0
+npm install --global quick-presenter-relay@1.0.1
 quick-presenter-relay /absolute/path/to/server.json --qp-config /absolute/path/to/new-client.toml
 ```
 
@@ -47,7 +47,8 @@ The root package is a CLI distribution, not a JavaScript library API. Use
 
 ## Validate
 
-Node.js >= 22.12.0 and npm are required. Contract tests need no credentials;
+Use Node.js 22.13.0 or later in the 22.x line, or Node.js >=24.0.0, with npm.
+Node 23.x is not supported. Contract tests need no credentials;
 fixture tests bind loopback sockets and generate synthetic credentials.
 
 ```sh
@@ -96,7 +97,7 @@ npm run pack:web
 
 The standalone consumer test verifies the installed tarball, exported asset paths,
 byte identity with tested source, Apache-2.0 notices and internal-path isolation.
-Install the published package with `npm install quick-presenter-audience-web@1.0.0`.
+Install the published package with `npm install quick-presenter-audience-web@1.0.1`.
 See the [package README](packages/audience-web/README.md).
 
 ## Self-hosted runtime
@@ -138,7 +139,7 @@ Release validation and package boundaries are documented in [RELEASING.md](docs/
 
 ## Releases and dependency updates
 
-All three packages use version `1.0.0` and Apache-2.0 with preserved notices.
+All three packages use version `1.0.1` and Apache-2.0 with preserved notices.
 The [release workflow](docs/RELEASING.md) verifies a tagged source and produces
 standalone npm tarballs. Publishing is an explicit operation, separate from CI.
 
@@ -151,3 +152,6 @@ update PRs are separate repository settings. No automatic merge is configured.
 Large fan-out, saturation, close-burst and sustained diagnostics remain manual-only:
 `npm run test:pressure` and `npm run test:capacity`. Neither runs in automatic CI
 or the npm release workflow's functional verification.
+
+See [SECURITY.md](SECURITY.md) for supported security updates and private
+vulnerability reporting.
