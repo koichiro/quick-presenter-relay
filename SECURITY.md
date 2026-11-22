@@ -3,6 +3,7 @@
 ## Supported versions
 
 Security fixes target the latest published 1.x release of these packages:
+
 - `quick-presenter-relay`
 - `quick-presenter-relay-core`
 - `quick-presenter-audience-web`

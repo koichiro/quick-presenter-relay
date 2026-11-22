@@ -95,6 +95,7 @@ quick-presenter --config /absolute/path/to/new-config.toml presentation.pdf
 ```
 
 For normal launches, put the TOML file at qp's standard config location:
+
 - macOS: `~/Library/Application Support/Quick Presenter/config.toml`
 - Windows: `%APPDATA%\Quick Presenter\config.toml`
 - Linux: `$XDG_CONFIG_HOME/quick-presenter/config.toml`, otherwise

@@ -21,6 +21,7 @@ permission/provenance. Shared protocol specifications and test vectors are the
 starting point for compatibility. Retain dependency licenses and notices.
 
 References:
+
 - https://www.apache.org/licenses/LICENSE-2.0
 - https://www.apache.org/licenses/GPL-compatibility.html
 
