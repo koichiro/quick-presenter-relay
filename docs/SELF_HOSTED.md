@@ -1,13 +1,13 @@
 # Self-hosted runtime (through stage 5)
 
-Version `1.0.1`, Relay Protocol `1`. This is a single-process Node runtime.
+Version `1.0.2`, Relay Protocol `1`. This is a single-process Node runtime.
 The loopback fixture command runs it with temporary storage. Release versioning
 does not guarantee production availability. Use Node 22.13.0+ in the 22.x line
 or Node >=24.0.0, npm and a writable local directory. Node 23.x is not supported. Node's built-in SQLite avoids a separate database service.
 
 ## Install or build
 
-Install the compiled server with `npm install --global quick-presenter-relay@1.0.1`.
+Install the compiled server with `npm install --global quick-presenter-relay@1.0.2`.
 Run `quick-presenter-relay /absolute/path/to/server.json` after creating the private
 configuration below. The optional `--qp-config /absolute/path/to/new-client.toml`
 exports client configuration without printing the creation token. The npm server

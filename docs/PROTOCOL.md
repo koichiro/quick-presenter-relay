@@ -1,6 +1,6 @@
 # Relay Protocol 1
 
-Status: v1 wire contract implemented by package release `1.0.1`. Operational
+Status: v1 wire contract implemented by package release `1.0.2`. Operational
 qualification is separate from package versioning. No compatibility with `1-draft.1` is
 provided. All client/server components must be updated together.
 The discriminator `protocol` is `qp.audience` or `qp.presenter`; `version` is
