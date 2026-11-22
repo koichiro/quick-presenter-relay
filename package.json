@@ -27,7 +27,7 @@
     "pack:server": "npm pack --workspaces=false"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.2",
+    "@biomejs/biome": "2.6.8",
     "@types/node": "22.20.5",
     "@types/ws": "8.18.2",
     "c8": "12.0.0",
