@@ -65,7 +65,9 @@ test("packed core is standalone, typed, licensed and isolated from runtime inter
     const manifest = JSON.parse(readFileSync(join(installed, "package.json"), "utf8"));
     assert.equal(manifest.license, "Apache-2.0");
     assert.equal(manifest.private, false);
-    assert.equal(manifest.version, "1.0.0");
+    const source = JSON.parse(readFileSync("packages/room-core/package.json", "utf8"));
+    assert.equal(manifest.version, source.version);
+    assert.equal(manifest.version, JSON.parse(readFileSync("package.json", "utf8")).version);
     assert.equal(
       manifest.repository.url,
       "git+https://github.com/koichiro/quick-presenter-relay.git",

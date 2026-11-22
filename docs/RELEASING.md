@@ -1,7 +1,7 @@
 # Releasing Quick Presenter Relay
 
 The server, portable core and audience browser are released together as version
-`1.0.0`. All three npm packages use Apache-2.0 and retain LICENSE and NOTICE.
+`1.0.1`. All three npm packages use Apache-2.0 and retain LICENSE and NOTICE.
 Relay Protocol `1` and extension API `1-draft.1` are versioned independently.
 
 ## Verify a candidate
@@ -57,10 +57,11 @@ verified workflow artifact, check its checksums and publish its exact tarballs i
 dependency order:
 
 ```sh
+RELEASE_VERSION=1.0.1 # Set this to the selected release tag without its v prefix.
 npm login --registry=https://registry.npmjs.org/
-npm publish ./quick-presenter-relay-core-1.0.0.tgz --ignore-scripts --access=public
-npm publish ./quick-presenter-audience-web-1.0.0.tgz --ignore-scripts --access=public
-npm publish ./quick-presenter-relay-1.0.0.tgz --ignore-scripts --access=public
+npm publish "./quick-presenter-relay-core-${RELEASE_VERSION}.tgz" --ignore-scripts --access=public
+npm publish "./quick-presenter-audience-web-${RELEASE_VERSION}.tgz" --ignore-scripts --access=public
+npm publish "./quick-presenter-relay-${RELEASE_VERSION}.tgz" --ignore-scripts --access=public
 ```
 
 Complete any npm browser/2FA challenge directly; never put credentials into source,
@@ -83,5 +84,8 @@ publish job uses OIDC and provenance, verifies the downloaded checksums and
 publishes in dependency order. It skips an existing version only when its registry
 integrity exactly matches the tarball; network errors or conflicting bytes stop
 publication. A partial failure can be retried after its cause is corrected.
+Verify that all three registry versions have provenance attestations, compare their
+SHA-512 integrity with the workflow tarballs and test an anonymous installation.
+Publish the matching GitHub release only after those checks pass.
 No npm write token is stored in this repository. An existing name/version cannot
 be replaced; fix a released defect with a new version.

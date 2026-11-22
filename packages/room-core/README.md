@@ -1,8 +1,8 @@
 # Quick Presenter Relay Core
 
 Portable Room Core and extension API for Relay Protocol `1`.
-Package version: `1.0.0`. Apache-2.0; see LICENSE and NOTICE.
-Install with `npm install quick-presenter-relay-core@1.0.0`.
+Package version: `1.0.1`. Apache-2.0; see LICENSE and NOTICE.
+Install with `npm install quick-presenter-relay-core@1.0.1`.
 
 Import `Room`, its port/input/metadata types, `AdmissionPolicies` and its SDK types,
 `strictJSON`, and `normalizeBody` from `quick-presenter-relay-core`.

@@ -62,7 +62,7 @@ test("published server installs and serves HTTP/WebSockets without source or bui
       for (const entry of pack.files)
         assert.match(
           entry.path,
-          /^(package\.json|README\.md|LICENSE|NOTICE|docs\/|dist\/(src\/|protocol\/|scripts\/contracts\.))/,
+          /^(package\.json|README\.md|SECURITY\.md|LICENSE|NOTICE|docs\/|dist\/(src\/|protocol\/|scripts\/contracts\.))/,
         );
       for (const path of [
         "dist/src/cli.js",
@@ -93,16 +93,18 @@ test("published server installs and serves HTTP/WebSockets without source or bui
   runNpm(["ci", "--offline", "--ignore-scripts", "--no-audit", "--no-fund"], dir);
   const installed = join(dir, "node_modules/quick-presenter-relay");
   const manifest = JSON.parse(readFileSync(join(installed, "package.json"), "utf8"));
-  assert.equal(manifest.version, "1.0.0");
+  const source = JSON.parse(readFileSync("package.json", "utf8"));
+  assert.equal(manifest.version, source.version);
+  assert.equal(manifest.engines.node, source.engines.node);
   assert.equal(manifest.private, false);
   assert.equal(manifest.bin["quick-presenter-relay"], "dist/src/cli.js");
-  assert.equal(manifest.dependencies["quick-presenter-relay-core"], "1.0.0");
-  assert.equal(manifest.dependencies["quick-presenter-audience-web"], "1.0.0");
+  assert.equal(manifest.dependencies["quick-presenter-relay-core"], manifest.version);
+  assert.equal(manifest.dependencies["quick-presenter-audience-web"], manifest.version);
   assert.match(
     readFileSync(join(installed, manifest.bin[manifest.name]), "utf8"),
     /^#!\/usr\/bin\/env node\n/,
   );
-  for (const name of ["LICENSE", "NOTICE"])
+  for (const name of ["LICENSE", "NOTICE", "SECURITY.md"])
     assert.equal(readFileSync(join(installed, name), "utf8"), readFileSync(name, "utf8"));
   for (const name of ["typescript", "c8", "@biomejs/biome"])
     assert.equal(existsSync(join(dir, "node_modules", name)), false);

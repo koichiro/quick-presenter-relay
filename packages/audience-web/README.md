@@ -1,8 +1,8 @@
 # Quick Presenter Audience Web
 
-Shared browser UI for Relay Protocol `1`, package version `1.0.0`. Apache-2.0;
+Shared browser UI for Relay Protocol `1`, package version `1.0.1`. Apache-2.0;
 see LICENSE and NOTICE. No runtime dependencies or build step are required.
-Install with `npm install quick-presenter-audience-web@1.0.0`.
+Install with `npm install quick-presenter-audience-web@1.0.1`.
 
 The package exports its mobile join page (`/index.html`), browser ES module
 (`/audience.js`), license and notice. The root export provides `mountAudience`
