@@ -1,7 +1,7 @@
 # Releasing Quick Presenter Relay
 
 The server, portable core and audience browser are released together as version
-`1.0.1`. All three npm packages use Apache-2.0 and retain LICENSE and NOTICE.
+`1.0.2`. All three npm packages use Apache-2.0 and retain LICENSE and NOTICE.
 Relay Protocol `1` and extension API `1-draft.1` are versioned independently.
 
 ## Verify a candidate
@@ -58,7 +58,7 @@ verified workflow artifact, check its checksums and publish its exact tarballs i
 dependency order:
 
 ```sh
-RELEASE_VERSION=1.0.1 # Set this to the selected release tag without its v prefix.
+RELEASE_VERSION=1.0.2 # Set this to the selected release tag without its v prefix.
 npm login --registry=https://registry.npmjs.org/
 npm publish "./quick-presenter-relay-core-${RELEASE_VERSION}.tgz" --ignore-scripts --access=public
 npm publish "./quick-presenter-audience-web-${RELEASE_VERSION}.tgz" --ignore-scripts --access=public

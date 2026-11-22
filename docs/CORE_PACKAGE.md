@@ -1,7 +1,7 @@
 # Portable core package
 
-`quick-presenter-relay-core` version `1.0.1` is the public portable npm package in
-`packages/room-core`. Install with `npm install quick-presenter-relay-core@1.0.1`.
+`quick-presenter-relay-core` version `1.0.2` is the public portable npm package in
+`packages/room-core`. Install with `npm install quick-presenter-relay-core@1.0.2`.
 Relay Protocol is independently versioned `1`; the extension SDK remains `1-draft.1`.
 Pin reviewed artifacts/revisions rather than following a moving branch.
 
