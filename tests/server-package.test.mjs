@@ -25,6 +25,12 @@ test("published server installs and serves HTTP/WebSockets without source or bui
       stdio: ["ignore", "pipe", "pipe"],
     });
   const dependencies = {};
+  const sourceLock = JSON.parse(readFileSync("package-lock.json", "utf8"));
+  const locked = Object.fromEntries(
+    Object.entries(sourceLock.packages).filter(
+      ([path, entry]) => path.startsWith("node_modules/") && !entry.dev && !entry.link,
+    ),
+  );
   for (const name of [
     "quick-presenter-relay-core",
     "quick-presenter-audience-web",
@@ -36,6 +42,22 @@ test("published server installs and serves HTTP/WebSockets without source or bui
       runNpm(["pack", ...selection, "--ignore-scripts", "--json", "--pack-destination", dir], root),
     );
     dependencies[name] = `file:./${pack.filename}`;
+    const metadataPath =
+      name === "quick-presenter-relay"
+        ? "package.json"
+        : name === "quick-presenter-relay-core"
+          ? "packages/room-core/package.json"
+          : "packages/audience-web/package.json";
+    const metadata = JSON.parse(readFileSync(metadataPath, "utf8"));
+    locked[`node_modules/${name}`] = {
+      version: metadata.version,
+      resolved: `file:${pack.filename}`,
+      integrity: pack.integrity,
+      license: metadata.license,
+      ...(metadata.dependencies ? { dependencies: metadata.dependencies } : {}),
+      ...(metadata.bin ? { bin: metadata.bin } : {}),
+      ...(metadata.engines ? { engines: metadata.engines } : {}),
+    };
     if (name === "quick-presenter-relay") {
       for (const entry of pack.files)
         assert.match(
@@ -58,7 +80,17 @@ test("published server installs and serves HTTP/WebSockets without source or bui
     join(dir, "package.json"),
     JSON.stringify({ private: true, type: "module", dependencies }),
   );
-  runNpm(["install", "--offline", "--ignore-scripts", "--no-audit", "--no-fund"], dir);
+  // npm ci caches tarballs, not necessarily registry packuments. Reuse its exact
+  // production resolutions so the independent installation needs no metadata fetch.
+  writeFileSync(
+    join(dir, "package-lock.json"),
+    JSON.stringify({
+      lockfileVersion: 3,
+      requires: true,
+      packages: { "": { dependencies }, ...locked },
+    }),
+  );
+  runNpm(["ci", "--offline", "--ignore-scripts", "--no-audit", "--no-fund"], dir);
   const installed = join(dir, "node_modules/quick-presenter-relay");
   const manifest = JSON.parse(readFileSync(join(installed, "package.json"), "utf8"));
   assert.equal(manifest.version, "1.0.0");
