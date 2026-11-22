@@ -57,10 +57,11 @@ verified workflow artifact, check its checksums and publish its exact tarballs i
 dependency order:
 
 ```sh
+RELEASE_VERSION=1.0.1 # Set this to the selected release tag without its v prefix.
 npm login --registry=https://registry.npmjs.org/
-npm publish ./quick-presenter-relay-core-1.0.0.tgz --ignore-scripts --access=public
-npm publish ./quick-presenter-audience-web-1.0.0.tgz --ignore-scripts --access=public
-npm publish ./quick-presenter-relay-1.0.0.tgz --ignore-scripts --access=public
+npm publish "./quick-presenter-relay-core-${RELEASE_VERSION}.tgz" --ignore-scripts --access=public
+npm publish "./quick-presenter-audience-web-${RELEASE_VERSION}.tgz" --ignore-scripts --access=public
+npm publish "./quick-presenter-relay-${RELEASE_VERSION}.tgz" --ignore-scripts --access=public
 ```
 
 Complete any npm browser/2FA challenge directly; never put credentials into source,
