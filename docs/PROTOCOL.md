@@ -25,6 +25,7 @@ an endpoint or promised public hostname. Package version is independent.
 ## Socket messages
 
 See `protocol/schemas/messages.schema.json` and wire fixtures.
+
 1. First text message is a role-specific `hello` carrying the room token.
 2. Audience receives `welcome` with connection ID, capabilities and availability.
 3. Audience sends `reaction` or `comment` with connection-scoped request ID.
@@ -103,6 +104,7 @@ The breaking changes are `version: "1"`, schema namespace `urn:qp-relay:1` and
 `/api/relay/v1/rooms` (including the `/end` suffix). The old draft API is not an
 alias. Unsupported versions fail; no negotiation or automatic downgrade is added.
 The extension API and its decision schema remain independently `1-draft.1`.
+
 - Freshness: offer TTL is receiver-relative, at most 2000 ms. Receipt timeout
   defaults to 3000 ms. Neither bounds unknown network transit or guarantees when
   an overlay appears. Delayed offers must obey pause/epoch and local deadlines.

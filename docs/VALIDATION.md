@@ -8,6 +8,7 @@ The original small model does not prove runtime guarantees. Stage 2–5 core, HT
 storage, CLI, crash/fault and browser-controller tests now supplement it.
 See [RUNTIME_CONFORMANCE.md](RUNTIME_CONFORMANCE.md) for executable failure scenarios
 and [EXTENSIONS.md](EXTENSIONS.md) for real hook integration and race tests. Application and deployment qualification should additionally cover:
+
 - Portable fixtures passing in Rust, TS and browser validators.
 - Browser -> relay -> qp admission -> result integration, including A7 history/logs.
 - Review the versioned extension contract and its provider/side-effect limits.

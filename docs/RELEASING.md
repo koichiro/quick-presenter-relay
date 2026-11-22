@@ -41,6 +41,7 @@ left false. It verifies the source/version identity, executes functional CI and
 uploads three tarballs plus `SHA256SUMS` as the `npm-packages` artifact.
 
 The three distribution names are:
+
 - `quick-presenter-relay`: compiled Node CLI, schemas, documentation and exact core/browser dependencies.
 - `quick-presenter-relay-core`: portable ESM/types and protocol assets, with no runtime npm dependencies.
 - `quick-presenter-audience-web`: HTML/ES module and notices, with no runtime npm dependencies.
